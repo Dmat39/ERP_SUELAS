@@ -1,0 +1,27 @@
+# Único servicio de infraestructura del MVP: PostgreSQL 17.
+# Levantar con:  npm run db:up   (o  docker compose up -d)
+services:
+  db:
+    image: postgres:17
+    container_name: erp-suelas-db
+    restart: unless-stopped
+    environment:
+      # Credenciales SOLO para desarrollo local. En producción (Supabase)
+      # las credenciales reales van por variables de entorno, nunca aquí.
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: erp_suelas
+    ports:
+      # Publicado en 5433 para no chocar con un Postgres local ya instalado en 5432.
+      - "5433:5432"
+    volumes:
+      - erp_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d erp_suelas"]
+      # (ya usa el usuario postgres)
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  erp_pgdata:

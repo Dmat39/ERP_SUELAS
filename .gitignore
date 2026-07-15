@@ -1,0 +1,40 @@
+# Dependencias
+node_modules/
+.pnp
+.pnp.js
+
+# Builds
+dist/
+.next/
+out/
+build/
+
+# Turbo
+.turbo/
+
+# Prisma
+apps/api/src/generated/
+
+# TypeScript incremental
+*.tsbuildinfo
+
+# Entorno
+.env
+.env.local
+.env.*.local
+
+# Especificación interna (no publicar)
+prompt-claude-code-erp-suelas.md
+
+# Logs
+*.log
+npm-debug.log*
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea/

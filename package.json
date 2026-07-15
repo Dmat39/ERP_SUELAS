@@ -1,0 +1,27 @@
+{
+  "name": "erp-suelas",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down",
+    "db:migrate": "npm run prisma:migrate -w api",
+    "db:generate": "npm run prisma:generate -w api",
+    "db:seed": "npm run prisma:seed -w api",
+    "db:reset": "npm run prisma:reset -w api",
+    "setup": "npm install && npm run db:up && npm run db:migrate && npm run db:seed"
+  },
+  "devDependencies": {
+    "turbo": "2.10.4"
+  },
+  "packageManager": "npm@10.9.2",
+  "engines": {
+    "node": ">=20"
+  }
+}

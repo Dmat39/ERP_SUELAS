@@ -1,0 +1,202 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Sistema de diseño — ERP Suelas
+   Dirección: "Claro técnico" (teal acero + slate).
+   Pensado para tablas densas de datos y lectura de números.
+   ============================================================ */
+@theme {
+  /* Superficies */
+  --color-bg: #f1f5f9; /* slate-100 — fondo de la app */
+  --color-surface: #ffffff; /* tarjetas, tablas, sidebar */
+  --color-surface-2: #f8fafc; /* filas alternas, headers de tabla */
+  --color-border: #e2e8f0; /* bordes finos */
+  --color-border-strong: #cbd5e1;
+
+  /* Texto */
+  --color-ink: #0f172a; /* texto principal (slate-900) */
+  --color-muted: #64748b; /* texto de soporte (slate-500) */
+  --color-faint: #94a3b8; /* placeholders, deshabilitado */
+
+  /* Acento industrial (teal acero) */
+  --color-primary: #0d9488;
+  --color-primary-hover: #0f766e;
+  --color-primary-soft: #ccfbf1;
+  --color-primary-fg: #ffffff;
+
+  /* Estados (para badges de pedido/producción/etc.) */
+  --color-ok: #15803d;
+  --color-ok-soft: #dcfce7;
+  --color-warn: #b45309;
+  --color-warn-soft: #fef3c7;
+  --color-danger: #b91c1c;
+  --color-danger-soft: #fee2e2;
+  --color-info: #1d4ed8;
+  --color-info-soft: #dbeafe;
+  --color-neutral: #475569;
+  --color-neutral-soft: #eef2f6;
+
+  /* Tipografía: sans-serif del sistema, legible en tablas y números */
+  --font-sans: ui-sans-serif, system-ui, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
+
+  --radius: 0.5rem;
+}
+
+html,
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Números tabulares para que las columnas de cantidades/precios alineen */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* Foco de teclado siempre visible (requisito de accesibilidad) */
+*:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ---------- Identidad "manufactura de calzado" ---------- */
+
+/* Textura de huella (patrón espiga sutil, como el grabado de una suela). */
+.tread-bg {
+  background-image:
+    repeating-linear-gradient(135deg, rgb(13 148 136 / 0.05) 0 2px, transparent 2px 12px),
+    repeating-linear-gradient(45deg, rgb(13 148 136 / 0.05) 0 2px, transparent 2px 12px);
+}
+/* Variante para fondos oscuros (hero del storefront). */
+.tread-bg-dark {
+  background-image:
+    repeating-linear-gradient(135deg, rgb(255 255 255 / 0.07) 0 2px, transparent 2px 12px),
+    repeating-linear-gradient(45deg, rgb(255 255 255 / 0.07) 0 2px, transparent 2px 12px);
+}
+
+/* Número estilo contador de planta (dígitos teal sobre pizarra oscura). */
+.counter {
+  display: inline-block;
+  background: #0f172a;
+  color: #5eead4;
+  border-radius: 6px;
+  padding: 2px 12px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+}
+
+@layer components {
+  /* ---------- Botones ---------- */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-md px-3.5 py-2
+      text-sm font-medium transition-colors cursor-pointer
+      disabled:opacity-50 disabled:cursor-not-allowed select-none;
+  }
+  .btn-primary {
+    background: var(--color-primary);
+    color: var(--color-primary-fg);
+  }
+  .btn-primary:hover:not(:disabled) {
+    background: var(--color-primary-hover);
+  }
+  .btn-secondary {
+    background: var(--color-surface);
+    color: var(--color-ink);
+    border: 1px solid var(--color-border-strong);
+  }
+  .btn-secondary:hover:not(:disabled) {
+    background: var(--color-surface-2);
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--color-muted);
+  }
+  .btn-ghost:hover:not(:disabled) {
+    background: var(--color-neutral-soft);
+    color: var(--color-ink);
+  }
+  .btn-sm {
+    @apply px-2.5 py-1.5 text-xs;
+  }
+
+  /* ---------- Tarjetas / paneles ---------- */
+  .card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+  }
+
+  /* ---------- Inputs ---------- */
+  .label {
+    @apply block text-sm font-medium mb-1.5;
+    color: var(--color-ink);
+  }
+  .input,
+  .select {
+    @apply w-full rounded-md px-3 py-2 text-sm transition-colors;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-strong);
+    color: var(--color-ink);
+  }
+  .input::placeholder {
+    color: var(--color-faint);
+  }
+  .input:focus,
+  .select:focus {
+    border-color: var(--color-primary);
+    outline: none;
+    box-shadow: 0 0 0 3px var(--color-primary-soft);
+  }
+
+  /* ---------- Tablas densas ---------- */
+  .table {
+    @apply w-full text-sm border-collapse;
+  }
+  .table thead th {
+    @apply text-left font-semibold text-xs uppercase tracking-wide px-4 py-2.5;
+    color: var(--color-muted);
+    background: var(--color-surface-2);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .table tbody td {
+    @apply px-4 py-2.5 align-middle;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .table tbody tr:hover td {
+    background: var(--color-surface-2);
+  }
+  .table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  /* ---------- Badges de estado ---------- */
+  .badge {
+    @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium;
+  }
+  .badge-ok {
+    background: var(--color-ok-soft);
+    color: var(--color-ok);
+  }
+  .badge-warn {
+    background: var(--color-warn-soft);
+    color: var(--color-warn);
+  }
+  .badge-danger {
+    background: var(--color-danger-soft);
+    color: var(--color-danger);
+  }
+  .badge-info {
+    background: var(--color-info-soft);
+    color: var(--color-info);
+  }
+  .badge-neutral {
+    background: var(--color-neutral-soft);
+    color: var(--color-neutral);
+  }
+}
