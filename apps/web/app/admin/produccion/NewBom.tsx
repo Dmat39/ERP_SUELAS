@@ -19,7 +19,7 @@ export function NewBom({
     <Modal
       triggerLabel="Nueva receta"
       triggerClassName="btn btn-secondary"
-      title="Nueva receta (BOM)"
+      title="Nueva receta (LDM)"
     >
       {(close) => <BomForm variants={variants} materials={materials} onDone={close} />}
     </Modal>

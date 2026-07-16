@@ -94,7 +94,7 @@ export async function createBom(_p: ActionState, fd: FormData) {
   return run(
     () => apiFetch('/boms', { method: 'POST', body: { variantId, name, lines } }),
     ['/admin/produccion'],
-    'Receta (BOM) creada',
+    'Receta (LDM) creada',
   );
 }
 
@@ -328,13 +328,13 @@ export async function createVariant(_p: ActionState, fd: FormData) {
   const body = {
     templateId: s(fd.get('templateId')),
     sku: s(fd.get('sku')),
-    attributeValueIds: [s(fd.get('attributeValueId'))],
+    talla: s(fd.get('talla')),
     priceOverride: fd.get('priceOverride') ? n(fd.get('priceOverride')) : undefined,
   };
   return run(
     () => apiFetch('/products/variants', { method: 'POST', body }),
-    ['/admin/inventario'],
-    'Variante creada',
+    ['/admin/inventario', '/admin/ventas'],
+    'Talla agregada',
   );
 }
 

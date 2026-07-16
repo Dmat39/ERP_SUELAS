@@ -10,7 +10,7 @@ export function NewTemplate() {
     <Modal
       triggerLabel="Nuevo producto"
       triggerClassName="btn btn-secondary"
-      title="Nuevo producto terminado"
+      title="Nuevo producto"
     >
       {(close) => (
         <StatefulForm action={createTemplate} submitLabel="Crear producto" onSuccess={close}>
@@ -54,19 +54,40 @@ export function NewTemplate() {
 export function NewVariant({
   templates,
   attributes,
+  defaultTemplateId,
+  triggerLabel = 'Nueva talla',
+  triggerClassName,
 }: {
   templates: TemplateAdmin[];
   attributes: AttributeWithValues[];
+  defaultTemplateId?: string;
+  triggerLabel?: string;
+  triggerClassName?: string;
 }) {
+  // Tallas ya existentes en el catálogo, como sugerencias del datalist.
+  const tallasSugeridas = attributes
+    .filter((attr) => attr.name.toLowerCase() === 'talla')
+    .flatMap((attr) => attr.values.map((v) => v.value));
+
   return (
-    <Modal triggerLabel="Nueva variante" title="Nueva variante (talla)">
+    <Modal
+      triggerLabel={triggerLabel}
+      triggerClassName={triggerClassName}
+      title="Agregar talla a un modelo"
+    >
       {(close) => (
-        <StatefulForm action={createVariant} submitLabel="Crear variante" onSuccess={close}>
+        <StatefulForm action={createVariant} submitLabel="Agregar talla" onSuccess={close}>
           <div>
             <label className="label" htmlFor="templateId">
               Producto
             </label>
-            <select id="templateId" name="templateId" className="select" required>
+            <select
+              id="templateId"
+              name="templateId"
+              className="select"
+              defaultValue={defaultTemplateId ?? ''}
+              required
+            >
               <option value="">Selecciona un producto…</option>
               {templates.map((t) => (
                 <option key={t.id} value={t.id}>
@@ -76,19 +97,25 @@ export function NewVariant({
             </select>
           </div>
           <div>
-            <label className="label" htmlFor="attributeValueId">
-              Talla / atributo
+            <label className="label" htmlFor="talla">
+              Talla
             </label>
-            <select id="attributeValueId" name="attributeValueId" className="select" required>
-              <option value="">Selecciona…</option>
-              {attributes.map((attr) =>
-                attr.values.map((v) => (
-                  <option key={v.id} value={v.id}>
-                    {attr.name}: {v.value}
-                  </option>
-                )),
-              )}
-            </select>
+            <input
+              id="talla"
+              name="talla"
+              className="input"
+              list="tallas-sugeridas"
+              placeholder="Ej: 42 (elige una o escribe una nueva)"
+              required
+            />
+            <datalist id="tallas-sugeridas">
+              {tallasSugeridas.map((t) => (
+                <option key={t} value={t} />
+              ))}
+            </datalist>
+            <p className="text-xs text-[var(--color-muted)] mt-1.5">
+              Si la talla no existe todavía, se crea automáticamente.
+            </p>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>

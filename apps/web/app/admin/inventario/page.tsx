@@ -29,6 +29,30 @@ export default async function InventarioPage() {
         <NewVariant templates={templates} attributes={attributes} />
       </ModuleHeader>
 
+      {/* Modelos: agregar una talla directamente al modelo (queda preseleccionado) */}
+      {templates.length > 0 && (
+        <div className="card p-5 mb-6">
+          <h2 className="font-semibold text-sm mb-3">Modelos</h2>
+          <div className="flex flex-wrap gap-2">
+            {templates.map((t) => (
+              <div
+                key={t.id}
+                className="flex items-center gap-2 border border-[var(--color-border)] rounded-lg pl-3 pr-1.5 py-1"
+              >
+                <span className="text-sm font-medium">{t.name}</span>
+                <NewVariant
+                  templates={templates}
+                  attributes={attributes}
+                  defaultTemplateId={t.id}
+                  triggerLabel="+ Talla"
+                  triggerClassName="btn btn-ghost btn-sm"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Curva de tallas: la vista de stock como la piensa la industria del calzado */}
       {variants.length > 0 && (
         <div className="card tread-bg p-5 mb-6">

@@ -88,14 +88,54 @@ export class InventoryService {
     return this.prisma.productTemplate.create({ data });
   }
 
-  // Crea una variante (ej: talla 39) para un template existente.
-  createVariant(dto: CreateVariantDto) {
+  // Busca la talla por su valor bajo el atributo "Talla"; si no existe, la crea.
+  private async findOrCreateTalla(value: string) {
+    let attribute = await this.prisma.attribute.findFirst({ where: { name: 'Talla' } });
+    if (!attribute) {
+      attribute = await this.prisma.attribute.create({ data: { name: 'Talla' } });
+    }
+    const existing = await this.prisma.attributeValue.findFirst({
+      where: { attributeId: attribute.id, value },
+    });
+    return (
+      existing ??
+      this.prisma.attributeValue.create({ data: { attributeId: attribute.id, value } })
+    );
+  }
+
+  // Crea una variante (ej: talla 42) para un template existente.
+  // La talla se crea automáticamente si aún no existe en el catálogo.
+  async createVariant(dto: CreateVariantDto) {
+    const value = dto.talla.trim();
+    const talla = await this.findOrCreateTalla(value);
+
+    // No permitir dos veces la misma talla en un mismo modelo.
+    const dup = await this.prisma.productVariant.findFirst({
+      where: {
+        templateId: dto.templateId,
+        attributes: { some: { attributeValueId: talla.id } },
+      },
+    });
+    if (dup) {
+      throw new BadRequestException(
+        `Este modelo ya tiene la talla ${value} (SKU ${dup.sku}).`,
+      );
+    }
+
+    // El SKU es único en todo el sistema: avisar con un mensaje claro.
+    const skuTaken = await this.prisma.productVariant.findUnique({
+      where: { sku: dto.sku },
+    });
+    if (skuTaken) {
+      throw new BadRequestException(`El SKU ${dto.sku} ya está en uso.`);
+    }
+
     return this.prisma.productVariant.create({
       data: {
         templateId: dto.templateId,
         sku: dto.sku,
         priceOverride: dto.priceOverride,
-        attributes: { create: dto.attributeValueIds.map((id) => ({ attributeValueId: id })) },
+        attributes: { create: [{ attributeValueId: talla.id }] },
       },
     });
   }

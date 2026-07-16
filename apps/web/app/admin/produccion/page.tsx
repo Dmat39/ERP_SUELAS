@@ -105,10 +105,10 @@ export default async function ProduccionPage() {
         )}
       </div>
 
-      {/* Recetas / BOM */}
+      {/* Recetas / LDM */}
       <div className="card overflow-hidden">
         <div className="px-4 py-3 border-b border-[var(--color-border)]">
-          <h2 className="font-semibold text-sm">Recetas (BOM)</h2>
+          <h2 className="font-semibold text-sm">Recetas (LDM)</h2>
         </div>
         {boms.length === 0 ? (
           <EmptyState message="No hay recetas. Crea una para poder producir." />

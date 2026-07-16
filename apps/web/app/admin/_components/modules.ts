@@ -117,7 +117,7 @@ export const MODULES: ModuleDef[] = [
     key: 'produccion',
     href: '/admin/produccion',
     label: 'Producción',
-    desc: 'Fabricar suelas usando recetas (BOM)',
+    desc: 'Fabricar suelas usando recetas (LDM)',
     group: 'fabricar',
     color: '#D97706',
     icon: ICONS.produccion,
@@ -130,7 +130,7 @@ export const MODULES: ModuleDef[] = [
   {
     key: 'inventario',
     href: '/admin/inventario',
-    label: 'Suelas terminadas',
+    label: 'Catálogo de productos',
     desc: 'Modelos, tallas y stock listo para vender',
     group: 'fabricar',
     color: '#0D9488',

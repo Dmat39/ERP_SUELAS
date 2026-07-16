@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useCart } from '@/lib/cart';
+import { Icon } from '@/components/Icon';
 import { soles } from '@/lib/format';
 
 const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001';
@@ -56,8 +57,8 @@ export default function CarritoPage() {
   if (done) {
     return (
       <div className="card p-8 text-center max-w-md mx-auto">
-        <div className="h-12 w-12 rounded-full bg-[var(--color-ok-soft)] text-[var(--color-ok)] flex items-center justify-center text-2xl mx-auto mb-4">
-          ✓
+        <div className="h-12 w-12 rounded-full bg-[var(--color-ok-soft)] text-[var(--color-ok)] flex items-center justify-center mx-auto mb-4">
+          <Icon name="check" size={26} strokeWidth={2.4} />
         </div>
         <h1 className="text-xl font-semibold mb-1">¡Pedido recibido!</h1>
         <p className="text-sm text-[var(--color-muted)] mb-2">
@@ -143,7 +144,7 @@ export default function CarritoPage() {
                     onClick={() => remove(i.variantId)}
                     aria-label="Quitar"
                   >
-                    ✕
+                    <Icon name="trash" size={16} />
                   </button>
                 </td>
               </tr>

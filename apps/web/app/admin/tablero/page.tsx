@@ -150,7 +150,7 @@ export default async function TableroPage() {
           counter
         />
         <KpiSpark
-          label="Stock producto terminado"
+          label="Stock de productos"
           value={`${qty(stockTotal)} u.`}
           delta={null}
           data={sparkStock}
@@ -224,7 +224,7 @@ export default async function TableroPage() {
             <SizeCurve rows={curvaRows} />
           ) : (
             <p className="text-sm text-[var(--color-muted)] py-8 text-center">
-              Sin stock de suelas terminadas todavía.
+              Sin stock de productos todavía.
             </p>
           )}
         </div>

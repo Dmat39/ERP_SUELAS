@@ -16,7 +16,7 @@ export function NewProductionOrder({ boms }: { boms: Bom[] }) {
         >
           <div>
             <label className="label" htmlFor="bomId">
-              Receta (BOM)
+              Receta (LDM)
             </label>
             <select id="bomId" name="bomId" className="select" required>
               <option value="">Selecciona una receta…</option>
